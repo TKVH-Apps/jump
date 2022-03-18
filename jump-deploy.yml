@@ -47,9 +47,9 @@ spec:
           readOnly: true
         resources:
           limits:
-            memory: 300Mi
+            memory: 64Mi
           requests:
-            memory: 250Mi
+            memory: 32Mi
         readinessProbe:
           tcpSocket:
             port: jump
