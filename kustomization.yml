@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: jump
+resources:
+  - jump-deploy.yml
+  - jump-svc.yml
+  - jump-pvc.yml
+  - jump-ing.yml
+  - jump-ns.yml
+  - jump-spc.yml
+  - jump-sa.yml

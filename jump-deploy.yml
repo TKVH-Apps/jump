@@ -1,0 +1,75 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: jump
+  labels:
+    app: jump
+    part-of: jump
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jump
+      part-of: jump
+  template:
+    metadata:
+      labels:
+        app: jump
+        part-of: jump
+    spec:
+      serviceAccountName: jump
+      containers:
+      - name: jump
+        image: daledavies/jump:v1.1.1
+        ports:
+        - name: jump
+          containerPort: 8080
+        env:
+        - name: SITENAME
+          value: "vhang.io"
+        - name: OWMAPIKEY
+          valueFrom:
+            secretKeyRef:
+              name: jump
+              key: OWMAPIKEY
+        - name: LATLONG
+          valueFrom:
+            secretKeyRef:
+              name: jump
+              key: LATLONG
+        volumeMounts:
+        - name: jump
+          mountPath: /sites
+        - name: backgrounds
+          mountPath: /backgrounds
+        - name: jump-secrets
+          mountPath: "/mnt/vault"
+          readOnly: true
+        resources:
+          limits:
+            memory: 300Mi
+          requests:
+            memory: 250Mi
+        readinessProbe:
+          tcpSocket:
+            port: jump
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: jump
+          initialDelaySeconds: 15
+          periodSeconds: 20
+      volumes:
+      - name: jump
+        persistentVolumeClaim:
+          claimName: jump
+      - name: backgrounds
+        persistentVolumeClaim:
+          claimName: backgrounds
+      - name: jump-secrets
+        csi:
+          driver: "secrets-store.csi.k8s.io"
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "jump"
