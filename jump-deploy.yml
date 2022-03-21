@@ -20,13 +20,15 @@ spec:
       serviceAccountName: jump
       containers:
       - name: jump
-        image: daledavies/jump:v1.1.1
+        image: daledavies/jump:v1.1.2
         ports:
         - name: jump
           containerPort: 8080
         env:
         - name: SITENAME
           value: "vhang.io"
+        - name: SHOWCLOCK
+          value: "false"
         - name: OWMAPIKEY
           valueFrom:
             secretKeyRef:
