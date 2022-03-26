@@ -20,7 +20,7 @@ spec:
       serviceAccountName: jump
       containers:
       - name: jump
-        image: daledavies/jump:v1.1.2
+        image: daledavies/jump:v1.1.3
         ports:
         - name: jump
           containerPort: 8080
@@ -39,6 +39,8 @@ spec:
             secretKeyRef:
               name: jump
               key: LATLONG
+        - name: CACHEBYPASS
+          value: "false"
         volumeMounts:
         - name: jump
           mountPath: /sites
