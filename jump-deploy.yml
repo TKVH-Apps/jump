@@ -20,7 +20,7 @@ spec:
       serviceAccountName: jump
       containers:
       - name: jump
-        image: daledavies/jump:v1.2.1
+        image: daledavies/jump:v1.3.0
         ports:
         - name: jump
           containerPort: 8080
@@ -29,6 +29,10 @@ spec:
           value: "vhang.io"
         - name: SHOWCLOCK
           value: "false"
+        - name: CHECKSTATUS
+          value: "true"
+        - name: STATUSCACHE
+          value: "5"
         - name: OWMAPIKEY
           valueFrom:
             secretKeyRef:
